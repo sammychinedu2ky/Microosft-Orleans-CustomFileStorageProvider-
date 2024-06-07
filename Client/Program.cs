@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Interfaces;
 using IHost host = new HostBuilder()
      .UseOrleansClient(clientBuilder =>
      {
