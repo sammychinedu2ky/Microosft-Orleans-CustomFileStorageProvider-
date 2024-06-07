@@ -35,7 +35,7 @@ public class PersonGrain : IGrainBase, IPersonGrain
     }
     public Task<string> GetName()
     {
-        return Task.FromResult($"Your name is {state.State.Name}");
+        return Task.FromResult($"My name is {state.State.Name}");
     }
 }
 
