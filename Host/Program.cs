@@ -40,7 +40,6 @@ public class PersonGrain : IGrainBase, IPersonGrain
 }
 
 
-[GenerateSerializer]
 public class PersonState
 {
     public string? Name { get; set; }
