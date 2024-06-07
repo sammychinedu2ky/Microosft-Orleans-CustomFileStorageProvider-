@@ -9,31 +9,12 @@ namespace Host
 {
     public class FileConfigurationOptions
     {
+        // the location of the folder to use as a store
         public string? StorePath { get; set; }
+        // the section in the config file to retrieve store path from
         public const string MyFileConfiguration = "FileConfiguration";
     }
 
-    public static class FileStorageExtensions
-    {
-        public static IServiceCollection AddFileStorage(this IServiceCollection services, Action<FileConfigurationOptions> configureOptions)
-        {
-            services.AddOptions<FileConfigurationOptions>()
-                       .Configure(configureOptions);
-            return services.AddKeyedSingleton<IGrainStorage, FileStorage>("fileStateStore");
-
-        }
-
-        public static IServiceCollection AddFileStorage(this IServiceCollection services)
-        {
-            services.AddOptions<FileConfigurationOptions>()
-               .Configure<IConfiguration>((settings, configuration) =>
-               {
-                   configuration.GetSection(FileConfigurationOptions.MyFileConfiguration).Bind(settings);
-               });
-            return services.AddKeyedSingleton<IGrainStorage, FileStorage>("fileStateStore");
-        }
-
-    }
 
     public class FileStorage : IGrainStorage
     {
@@ -76,6 +57,27 @@ namespace Host
             var data = JsonSerializer.Serialize(grainState.State);
             await File.WriteAllTextAsync(path, data);
         }
+    }
+    public static class FileStorageExtensions
+    {
+        public static IServiceCollection AddFileStorage(this IServiceCollection services, Action<FileConfigurationOptions> configureOptions)
+        {
+            services.AddOptions<FileConfigurationOptions>()
+                       .Configure(configureOptions);
+            return services.AddKeyedSingleton<IGrainStorage, FileStorage>("fileStateStore");
+
+        }
+
+        public static IServiceCollection AddFileStorage(this IServiceCollection services)
+        {
+            services.AddOptions<FileConfigurationOptions>()
+               .Configure<IConfiguration>((settings, configuration) =>
+               {
+                   configuration.GetSection(FileConfigurationOptions.MyFileConfiguration).Bind(settings);
+               });
+            return services.AddKeyedSingleton<IGrainStorage, FileStorage>("fileStateStore");
+        }
+
     }
 
 }

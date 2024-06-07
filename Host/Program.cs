@@ -2,6 +2,7 @@
 using Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Orleans.Concurrency;
 using Orleans.Runtime;
 
 IHostBuilder builder = new HostBuilder()
@@ -13,7 +14,7 @@ IHostBuilder builder = new HostBuilder()
 
 builder.ConfigureAppConfiguration((context, config) =>
 {
-    config.AddJsonFile("C:\\Users\\Swacblooms\\source\\repos\\Microosft-Orleans(CustomFileStorageProvider)\\Host\\appsettings.json", optional: true);
+    config.AddJsonFile("path_to_config_file.json", optional: true);
 });
 using IHost host = builder.Build();
 
@@ -24,6 +25,7 @@ public class PersonGrain : IGrainBase, IPersonGrain
     IPersistentState<PersonState> state;
     public IGrainContext GrainContext { get; }
     public PersonGrain(IGrainContext context, [PersistentState("personState", "fileStateStore")] IPersistentState<PersonState> state) => (GrainContext, this.state) = (context, state);
+
     public async Task AddName(string name)
     {
         var context = this.GrainContext;
