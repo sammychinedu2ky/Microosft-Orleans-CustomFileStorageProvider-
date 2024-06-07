@@ -16,7 +16,7 @@ IHostBuilder builder = new HostBuilder()
 
 builder.ConfigureAppConfiguration((context, config) =>
 {
-    config.AddJsonFile("json_config_path", optional: true);
+    config.AddJsonFile("C:\\Users\\Swacblooms\\source\\repos\\Microosft-Orleans(CustomFileStorageProvider)\\Host\\appsettings.json", optional: true);
 });
 using IHost host = builder.Build();
 
